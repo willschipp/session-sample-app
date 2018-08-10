@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/session")
+@RequestMapping("/")
 public class SessionEndpoint {
 
     private static final String KEY = "sessionWord";
@@ -24,6 +24,20 @@ public class SessionEndpoint {
 
     @RequestMapping(method= RequestMethod.GET)
     public String get(HttpSession session) throws Exception {
-        return session.getAttribute(KEY).toString();
+        String value = null;
+        try {
+            value = session.getAttribute(KEY).toString();
+        }
+        catch (NullPointerException e) {
+            value = "nothing has been set yet"; //TODO fix this
+        }
+        return value;
     }
+
+
+    @RequestMapping( value="/fancy", method= RequestMethod.GET)
+    public String getFancy(HttpSession session) throws Exception {
+        return "fancy " + get(session);
+    }
+
 }

@@ -43,10 +43,17 @@ public class SessionEndpointTest {
         MockHttpSession session = new MockHttpSession();
         //push a value to the server
         //have it persist in the session
-        mvc.perform(post("/session").content(sample).accept(MediaType.APPLICATION_JSON).session(session)).andExpect(status().isCreated());
+        mvc.perform(post("/").content(sample).accept(MediaType.APPLICATION_JSON).session(session)).andExpect(status().isCreated());
         //test for it
         assertNotNull(session.getAttribute("sessionWord"));
         //hit again and get the value back
-        mvc.perform(get("/session").accept(MediaType.TEXT_PLAIN).session(session)).andExpect(status().isOk()).andExpect(content().string(sample));
+        mvc.perform(get("/").accept(MediaType.TEXT_PLAIN).session(session)).andExpect(status().isOk()).andExpect(content().string(sample));
+    }
+
+    @Test
+    public void testNothingHasBeenPosted() throws Exception {
+        String testString = "nothing has been set yet";
+        MockHttpSession session = new MockHttpSession();
+        mvc.perform(get("/").accept(MediaType.TEXT_PLAIN).session(session)).andExpect(status().isOk()).andExpect(content().string(testString));
     }
 }
