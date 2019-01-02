@@ -1,28 +1,25 @@
 package com.example.telco.endpoint;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 @RestController
-@RequestMapping("/")
-public class SessionEndpoint {
+@RequestMapping("/state")
+public class StateEndpoint {
 
     private static final String KEY = "sessionWord";
 
-    @RequestMapping(method= RequestMethod.POST)
+    @PostMapping
     public void save(@RequestBody String body, HttpSession session, HttpServletResponse response) throws Exception {
         session.setAttribute(KEY,body);
         //response code
         response.setStatus(HttpStatus.CREATED.value());
     }
 
-    @RequestMapping(method= RequestMethod.GET)
+    @GetMapping
     public String get(HttpSession session) throws Exception {
         String value = null;
         try {
@@ -35,7 +32,7 @@ public class SessionEndpoint {
     }
 
 
-    @RequestMapping( value="/fancy", method= RequestMethod.GET)
+    @GetMapping("/fancy")
     public String getFancy(HttpSession session) throws Exception {
         return "fancy " + get(session);
     }

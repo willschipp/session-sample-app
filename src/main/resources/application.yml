@@ -1,11 +1,13 @@
+server:
+  port: 8081
+
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
-    url: jdbc:mysql://localhost:3306/sdb
+    url: jdbc:mysql://localhost:3306/sbd
     username: root
     password: welcome1
-    driver-class-name: com.mysql.jdbc.Driver
     initialization-mode: always
     schema: classpath:org/springframework/session/jdbc/schema-mysql.sql
     continue-on-error: true
-    hikari:
-      maximumPoolSize: 2
